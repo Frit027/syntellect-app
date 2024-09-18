@@ -1,6 +1,6 @@
 import { makeObservable, observable, action } from 'mobx';
 
-export class Store {
+export class InputViewModel {
   @observable value = '';
 
   constructor() {
@@ -26,6 +26,3 @@ export class Store {
     }
   };
 }
-
-export const store1 = new Store();
-export const store2 = new Store();
