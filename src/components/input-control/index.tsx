@@ -6,7 +6,7 @@ import { classes } from './constants';
 import { generateID } from '../../utilities';
 import './index.css';
 
-export const ButtonsControl = observer(({ viewModel, leftButtons, rightButtons }: TProps) => {
+export const InputControl = observer(({ viewModel, leftButtons, rightButtons }: TProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => viewModel.setValue(e.target.value);
 
   return <div className={classes.component}>
