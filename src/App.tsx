@@ -1,21 +1,23 @@
 import React from 'react';
 import { ButtonsControl } from './components/buttons-control';
-import { observer } from 'mobx-react-lite';
-import { Store } from './store';
+import { InputViewModel } from './stores';
 
-const App = observer(({ store1, store2 }: { store1: Store, store2: Store }) => {
+const App = () => {
+  const inputViewModel1 = new InputViewModel();
+  const inputViewModel2 = new InputViewModel();
+
   return <div>
     <ButtonsControl
-      store={store1}
+      viewModel={inputViewModel1}
       rightButtons={[
-        { title: 'Очистить', callback: store1.clear },
-        { title: 'Установить Hello world!', callback: () => store1.setValue('Hello world!') },
+        { title: 'Очистить', callback: inputViewModel1.clear },
+        { title: 'Установить Hello world!', callback: () => inputViewModel1.setValue('Hello world!') },
       ]} />
     <ButtonsControl
-      store={store2}
-      leftButtons={[{ title: 'alert, если число', callback: store2.alertIfNumber }]}
-      rightButtons={[{ title: 'alert', callback: store2.alertValue }]} />
+      viewModel={inputViewModel2}
+      leftButtons={[{ title: 'alert, если число', callback: inputViewModel2.alertIfNumber }]}
+      rightButtons={[{ title: 'alert', callback: inputViewModel2.alertValue }]} />
   </div>;
-});
+};
 
 export default App;
