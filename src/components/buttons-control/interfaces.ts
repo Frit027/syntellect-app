@@ -1,5 +1,5 @@
 import React from 'react';
-import { Store } from '../../store';
+import { InputViewModel } from '../../stores';
 
 type TButton = {
   title: string,
@@ -7,7 +7,7 @@ type TButton = {
 };
 
 export type TProps = {
-  store: Store,
+  viewModel: InputViewModel,
   leftButtons?: TButton[],
   rightButtons?: TButton[],
 };
