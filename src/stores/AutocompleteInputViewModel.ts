@@ -5,6 +5,7 @@ export class AutocompleteInputViewModel {
   @observable value = '';
   @observable countries: CountryInfo[] = [];
   @observable state = 'pending';
+  timerId: NodeJS.Timeout | null = null;
 
   constructor() {
     makeObservable(this);
@@ -13,7 +14,10 @@ export class AutocompleteInputViewModel {
   @action
   setValue = (newValue: string) => {
     this.value = newValue;
-    this.fetch();
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+    }
+    this.timerId = setTimeout(() => this.fetch(), 500);
   };
 
   @flow
