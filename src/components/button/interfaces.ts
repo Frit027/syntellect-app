@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Пропсы кнопки
+ * Тип для пропсов кнопки
  */
 export type TProps = {
   // текст кнопки
