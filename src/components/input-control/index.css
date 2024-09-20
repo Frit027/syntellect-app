@@ -1,3 +1,5 @@
-.buttons-control {
+.buttons-control,
+.buttons-control__buttons {
     display: flex;
+    gap: 20px;
 }
