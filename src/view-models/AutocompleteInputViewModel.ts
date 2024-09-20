@@ -1,34 +1,45 @@
-import { makeObservable, observable, action, flow } from 'mobx';
-import { CountryInfo, getCountryByName } from '../api/apiService';
+import {action, flow, makeObservable, observable} from 'mobx';
+import {CountryInfo, getCountryByName} from '../api/apiService';
 
+/**
+ * ViewModel для контрола-автокомплита
+ */
 export class AutocompleteInputViewModel {
+  // значение инпута
   @observable value = '';
+
+  // массив стран
   @observable countries: CountryInfo[] = [];
-  @observable state = 'pending';
+
+  // ID таймера
   timerId: NodeJS.Timeout | null = null;
 
   constructor() {
     makeObservable(this);
   }
 
+  /**
+   * Установка нового значения для value. Используем небольшую задержку, чтобы не запрашивать данные с сервера
+   * при каждом изменении значения инпута.
+   * @param {string} newValue - Новое значение
+   */
   @action
   setValue = (newValue: string) => {
     this.value = newValue;
     if (this.timerId) {
       clearTimeout(this.timerId);
     }
-    this.timerId = setTimeout(() => this.fetch(), 500);
+    this.timerId = setTimeout(() => this.fetchData(), 500);
   };
 
+  /**
+   * Асинхронное получение массива стран по API
+   */
   @flow
-  *fetch() {
-    this.state = 'pending'
+  *fetchData() {
     try {
-      const data: CountryInfo[] = yield getCountryByName(this.value)
-      this.state = 'done';
-      this.countries = data;
+      this.countries = yield getCountryByName(this.value);
     } catch (error) {
-      this.state = 'error';
       console.error(error);
     }
   }
