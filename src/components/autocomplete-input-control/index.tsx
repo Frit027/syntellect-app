@@ -1,17 +1,32 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { generateID } from '../../utilities';
-import { classes } from './constants';
+import { classes as commonClasses } from '../../common/constants';
 import { TProps } from './interfaces';
+import { classes } from './constants';
 import './index.css';
 
+/**
+ * Контрол-автокомплит, запрашивающий данные с сервера при вводе текста в инпут
+ * и отображающий их в виде выпадающего списка
+ *
+ * @component
+ */
 export const AutocompleteInputControl = observer(({ viewModel, maxTips }: TProps) => {
+  /**
+   * Обработка ввода текста в инпут
+   * @param {React.ChangeEvent<HTMLInputElement>} e - Событие ввода текста в инпут
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => viewModel.setValue(e.target.value);
 
+  /**
+   * Обработка клика по одной из подсказок в выпадающем списке
+   * @param {string} countryName - Название станы, по которой кликнули
+   */
   const handleClick = (countryName: string) => viewModel.setValue(countryName);
 
-  return <div>
-    <input className={classes.input} value={viewModel.value} onChange={handleChange} type='text' />
+  return <div className={classes.component}>
+    <input className={commonClasses.input} value={viewModel.value} onChange={handleChange} type='text' />
     {viewModel.countries.length
       ? <div className={classes.list}>
         {viewModel.countries.slice(0, maxTips).map((country) => (
