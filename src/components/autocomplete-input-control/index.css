@@ -9,7 +9,7 @@
 .autocomplete-input__item {
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: center;
     cursor: pointer;
 }
 
