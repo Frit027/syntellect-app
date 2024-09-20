@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputViewModel } from '../../stores';
+import { InputViewModel } from '../../view-models';
 
 type TButton = {
   title: string,

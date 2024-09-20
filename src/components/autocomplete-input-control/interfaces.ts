@@ -1,4 +1,4 @@
-import { AutocompleteInputViewModel } from '../../stores';
+import { AutocompleteInputViewModel } from '../../view-models';
 
 /**
  * Тип пропсов контрола-автокомплита
