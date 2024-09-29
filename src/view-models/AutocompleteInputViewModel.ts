@@ -1,4 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
+import { getDebounceFunction } from '../utilities';
 import { LoadingStatus } from '../common/constants';
 import { CountryInfo, getCountryByName } from '../api/apiService';
 
@@ -15,14 +16,15 @@ export class AutocompleteInputViewModel {
   // статус загрузки данных по API
   @observable state = LoadingStatus.Idle;
 
-  // ID таймера
-  timerId: NodeJS.Timeout | null = null;
-
   // последний созданный промис
-  lastPromise: Promise<CountryInfo[]> | null = null;
+  private lastPromise: Promise<CountryInfo[]> | null = null;
+
+  // debounce-функция для запроса данных при вводе
+  private readonly debouncedFetch: () => void;
 
   constructor() {
     makeObservable(this);
+    this.debouncedFetch = getDebounceFunction(this.fetchData);
   }
 
   /**
@@ -32,17 +34,13 @@ export class AutocompleteInputViewModel {
    */
   @action
   setValue = (newValue: string) => {
-    if (this.timerId) {
-      clearTimeout(this.timerId);
-    }
-
     this.value = newValue;
     if (!this.value) {
       this.countries = [];
       return;
     }
 
-    this.timerId = setTimeout(() => this.fetchData(), 500);
+    this.debouncedFetch();
   };
 
   /**
